@@ -3,11 +3,27 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var methodOverride = require('method-override')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var entriesRouter = require('./routes/entries');
 
 var app = express();
+
+// helpers
+// let Handlebars = require('handlebars');
+// Handlebars.registerHelper('stub', function(object) {
+//     firstWordsRegExp = /^(\S+\s){25}$/;
+//     checkWords = object.match(firstWordsRegExp)
+//     if(checkWords) {
+//         return new Handlebars.SafeString(
+//             checkWords[0] + '...'
+//         );
+//     }
+//     else {
+//         return object;
+//     }
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,9 +34,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        var method = req.body._method;
+        delete req.body._method;
+        return method;
+    }
+}));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/entries', entriesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
