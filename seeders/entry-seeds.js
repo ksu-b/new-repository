@@ -1,3 +1,12 @@
+// Подключаем mongoose.
+const mongoose = require("mongoose");
+mongoose.connect('mongodb://localhost:27017/broccoli', { useNewUrlParser: true });
+
+
+
+const Entry = require('../models/entry');
+
+
 const entries = [
   {
     title: "Salsify Taro Catsear Garlic",
@@ -40,4 +49,9 @@ const entries = [
     title: "Coriander Yarrow Sweet Pepper",
     body: "Water spinach arugula pea tatsoi aubergine spring onion bush tomato kale radicchio turnip chicory salsify pea sprouts fava bean. Dandelion zucchini burdock yarrow chickpea dandelion sorrel courgette turnip greens tigernut soybean radish artichoke wattle seed endive groundnut broccoli arugula.", createdAt: new Date(), updatedAt: new Date()
   }
-]
+];
+
+
+Entry.insertMany(entries).then(() => {
+  mongoose.connection.close();
+});
