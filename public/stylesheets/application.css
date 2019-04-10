@@ -31,7 +31,7 @@ a {
     text-decoration: underline;
   }
 
-input[type=text], input[type=password], textarea {
+input[type=text], input[type=password], textarea, #email-input {
   color: #05724f;
 }
 

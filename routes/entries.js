@@ -6,13 +6,17 @@ console.log('started entries');
 
 // entries
 router.get('/', async function (req, res, next) {
-    let entries = await Entry.mostRecent();
-    console.log(entries);
-    res.render('entries/index', { entries });
+    let recentEntries = await Entry.mostRecent();
+    if (req.session.user && req.cookies.user_sid) {
+        res.render('entries/index', { username: req.session.user.username, loggedIn: true, entries: recentEntries });
+    } else {
+        res.render('entries/index', { entries: recentEntries });
+    }
 });
 
 router.post('/', async function (req, res, next) {
-    newEntry = new Entry({ title: req.body.title, body: req.body.body });
+    let newEntry = new Entry({ title: req.body.title, body: req.body.body });
+    await newEntry.save();
     res.redirect(`/entries/${newEntry.id}`);
 });
 

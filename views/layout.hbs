@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <link rel="stylesheet" href="/stylesheets/normalize.css">
-      <link rel="stylesheet" href="/stylesheets/application.css">
 
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-      <script src="/js/application.js"></script>
+<head>
+    <link rel="stylesheet" href="/stylesheets/normalize.css">
+    <link rel="stylesheet" href="/stylesheets/application.css">
 
-      <title>Broccoli Blog</title>
-  </head>
-  <body>
-      <header role="banner" class="mar-t-5 pad-t-2 pad-b-4 pad-s-1 wrap-float bg-white">
-          <div class="max-w-700 center wrap-float">
-              <nav class="clearfix mar-b-1">
-                  <ul class="no-bullets no-margin no-padding right">
-                      <li class="pipe-separate t-light-green left"><a href="/">home</a></li>
-                  </ul>
-              </nav>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/js/application.js"></script>
 
-              <div class="logo-container">
-                  <img class="logo" src="/images/logo.png" class="center block">
-                  <h1>Broccoli Blog</h1>
-              </div>
-          </div>
-      </header>
-      <div class="bg-dk-green pad-t-2 pad-s-1 pad-b-8 mar-b-16 c-white">
-          <div class="max-w-700 center">
+    <title>Broccoli Blog</title>
+</head>
+
+<body>
+    <header role="banner" class="mar-t-5 pad-t-2 pad-b-4 pad-s-1 wrap-float bg-white">
+        <div class="max-w-700 center wrap-float">
+            <nav class="clearfix mar-b-1">
+                <ul class="no-bullets no-margin no-padding right">
+                    {{#if loggedIn}}
+                    <li class="pipe-separate left">{{username}}</a></li>
+                    <li class="pipe-separate t-light-green left"><a href="/logout">logout</a></li>
+                    {{else}}
+                    <li class="pipe-separate t-light-green left"><a href="/signup">register</a></li>
+                    <li class="pipe-separate t-light-green left"><a href="/login">login</a></li>
+                    {{/if}}
+                    <li class="pipe-separate t-light-green left"><a href="/">home</a></li>
+                </ul>
+            </nav>
+
+            <div class="logo-container">
+                <img class="logo" src="/images/logo.png" class="center block">
+                <h1>Broccoli Blog</h1>
+            </div>
+        </div>
+    </header>
+    <div class="bg-dk-green pad-t-2 pad-s-1 pad-b-8 mar-b-16 c-white">
+        <div class="max-w-700 center">
             {{{body}}}
-          </div>
-      </div>
-  </body>
+        </div>
+    </div>
+</body>
+
 </html>
