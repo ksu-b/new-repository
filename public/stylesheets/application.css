@@ -290,3 +290,6 @@ input[type=text], input[type=password], textarea, #email-input {
 .logo {
   width:160px;
 }
+.disp-n {
+  display: none;
+}

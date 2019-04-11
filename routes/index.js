@@ -9,8 +9,12 @@ router.get('/', function (req, res, next) {
 });
 // route for user signup
 router.route('/signup')
-  .get(sessionChecker, (req, res) => {
-    res.render('signup');
+  .get((req, res) => {
+    if (req.session.user && req.cookies.user_sid) {
+      res.redirect('/dashboard');
+    } else {
+      res.render('signup');
+    }
   })
   .post(async (req, res) => {
     // if (req.body.password === '') {
@@ -51,17 +55,17 @@ router.route('/login')
       res.redirect('/login');
     } else {
       req.session.user = user;
-      res.redirect('/dashboard');
+      res.redirect('/entries');
     }
   });
 // route for user's dashboard
-router.get('/dashboard', async (req, res) => {
-  if (req.session.user && req.cookies.user_sid) {
-    res.redirect('/entries');
-  } else {
-    res.redirect('/login');
-  }
-});
+// router.get('/dashboard', async (req, res) => {
+//   if (req.session.user && req.cookies.user_sid) {
+//     res.redirect('/entries');
+//   } else {
+//     res.redirect('/login');
+//   }
+// });
 // route for user logout
 router.get('/logout', async (req, res, next) => {
   if (req.session.user && req.cookies.user_sid) {
