@@ -11,7 +11,7 @@ router.get('/', function (req, res, next) {
 router.route('/signup')
   .get((req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-      res.redirect('/dashboard');
+      res.redirect('/entries');
     } else {
       res.render('signup');
     }
@@ -29,7 +29,7 @@ router.route('/signup')
       await user.save();
       // if (!req.body.password) { throw Error('No password!'); }
       req.session.user = user;
-      res.redirect('/dashboard');
+      res.redirect('/entries');
     }
     catch (error) {
       // let errorArr = [];
@@ -58,15 +58,7 @@ router.route('/login')
       res.redirect('/entries');
     }
   });
-// route for user's dashboard
-// router.get('/dashboard', async (req, res) => {
-//   if (req.session.user && req.cookies.user_sid) {
-//     res.redirect('/entries');
-//   } else {
-//     res.redirect('/login');
-//   }
-// });
-// route for user logout
+
 router.get('/logout', async (req, res, next) => {
   if (req.session.user && req.cookies.user_sid) {
     try {

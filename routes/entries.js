@@ -22,14 +22,23 @@ router.post('/', async (req, res, next) => {
 
 //new entries
 router.get('/new', sessionChecker, (req, res, next) => {
-
-    res.render('entries/new');
+    if (req.session.user && req.cookies.user_sid) {
+        res.render('entries/new', { username: req.session.user.username, loggedIn: true });
+    } else {
+        res.render('entries/new');
+    }
 });
 
 //detail entry
 router.get('/:id', sessionChecker, async (req, res, next) => {
     let entry = await Entry.findById(req.params.id);
-    res.render('entries/show', { entry });
+    if (req.cookies.user_sid && req.session.user.username === entry.author) {
+        res.render('entries/show', { entry, username: req.session.user.username, loggedIn: true, userMatch: true });
+    } else if (req.session.user && req.cookies.user_sid) {
+        res.render('entries/show', { entry, username: req.session.user.username, loggedIn: true });
+    } else {
+        res.render('entries/show', { entry });
+    }
 });
 
 router.put('/:id', sessionChecker, async (req, res, next) => {
@@ -37,6 +46,7 @@ router.put('/:id', sessionChecker, async (req, res, next) => {
 
     entry.title = req.body.title;
     entry.body = req.body.body;
+    entry.updatedAt = Date.now();
     await entry.save();
 
     res.redirect(`/entries/${entry.id}`);
@@ -49,6 +59,12 @@ router.delete('/:id', sessionChecker, async (req, res, next) => {
 
 router.get('/:id/edit', sessionChecker, async (req, res, next) => {
     let entry = await Entry.findById(req.params.id);
-    res.render('entries/edit', { entry });
+    if (req.session.user.username !== entry.author) {
+        res.render('404', { username: req.session.user.username, loggedIn: true });
+    } else if (req.session.user && req.cookies.user_sid) {
+        res.render('entries/edit', { entry, username: req.session.user.username, loggedIn: true });
+    } else {
+        res.render('entries/edit', {entry});
+    }
 });
 module.exports = router;

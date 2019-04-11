@@ -1,9 +1,10 @@
 <h1>{{entry.title}}</h1>
 
 <!--<span class="entry-date block font-3-4 c-lt-gray">Written on long_form_date(entry.createdAt)</span>-->
-<span class="entry-date block font-3-4 c-lt-gray">Written on {{entry.createdAt}}</span>
+<span class="entry-date block font-3-4 c-lt-gray">Written on {{entry.date}}</span>
 <p>{{entry.body}}</p>
 
+{{#if userMatch}}
 <ul class="no-bullets no-padding mar-t-2">
   <li class="pipe-separate left">
     <a href="/entries/{{ entry.id }}/edit" class="c-white">edit</a>
@@ -16,3 +17,4 @@
     </form>
   </li>
 </ul>
+{{/if}}
