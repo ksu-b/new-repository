@@ -1,4 +1,8 @@
+{{#if loggedIn}}
 <a href="/entries/new" class="block button w-100 mar-t-2 mar-b-3 pad-2 round-1 text-c center">Write about Broccoli</a>
+{{else}}
+<a href="/entries/new" class="disp-n block button w-100 mar-t-2 mar-b-3 pad-2 round-1 text-c center">Write about Broccoli</a>
+{{/if}}
 
 <main role="main">
   <ul class="entries-list no-bullets no-padding">

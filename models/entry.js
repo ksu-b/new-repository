@@ -5,7 +5,8 @@ const entrySchema = new mongoose.Schema({
     title: String,
     body: String,
     createdAt: String,
-    updatedAt: Date
+    updatedAt: Date,
+    author: String
 });
 
 entrySchema.statics.mostRecent = async function() {
