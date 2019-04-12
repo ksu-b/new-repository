@@ -56,9 +56,11 @@ app.use(methodOverride(function (req, res) {
 // Импорт маршрутов.
 const indexRouter = require('./routes/index');
 const entriesRouter = require('./routes/entries');
+const usersRouter = require('./routes/users');
 // Подключаем импортированные маршруты с определенным url префиксом.
 app.use('/', indexRouter);
 app.use('/entries', entriesRouter);
+app.use('/users', usersRouter);
 
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.

@@ -1,7 +1,6 @@
 <h1>{{entry.title}}</h1>
 
-<!--<span class="entry-date block font-3-4 c-lt-gray">Written on long_form_date(entry.createdAt)</span>-->
-<span class="entry-date block font-3-4 c-lt-gray">Written on {{entry.date}}</span>
+<span class="entry-date block font-3-4 c-lt-gray">Written on {{entry.date}} by {{entry.authorID.username}}</span>
 <p>{{entry.body}}</p>
 
 {{#if userMatch}}

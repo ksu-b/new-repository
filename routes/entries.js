@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Entry = require('../models/entry');
 const { sessionChecker } = require('../middleware/auth');
-console.log('started entries');
 
 // entries
 router.get('/', async (req, res, next) => {
@@ -15,7 +14,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-    let newEntry = new Entry({ title: req.body.title, body: req.body.body, author: req.session.user.username });
+    let newEntry = new Entry({ title: req.body.title, body: req.body.body, authorID: req.session.user._id });
     await newEntry.save();
     res.redirect(`/entries/${newEntry.id}`);
 });
@@ -30,9 +29,9 @@ router.get('/new', sessionChecker, (req, res, next) => {
 });
 
 //detail entry
-router.get('/:id', sessionChecker, async (req, res, next) => {
-    let entry = await Entry.findById(req.params.id);
-    if (req.cookies.user_sid && req.session.user.username === entry.author) {
+router.get('/:id', async (req, res, next) => {
+    let entry = await Entry.findById(req.params.id).populate('authorID');
+    if (req.cookies.user_sid && req.session.user._id == entry.authorID._id) {
         res.render('entries/show', { entry, username: req.session.user.username, loggedIn: true, userMatch: true });
     } else if (req.session.user && req.cookies.user_sid) {
         res.render('entries/show', { entry, username: req.session.user.username, loggedIn: true });
@@ -59,12 +58,12 @@ router.delete('/:id', sessionChecker, async (req, res, next) => {
 
 router.get('/:id/edit', sessionChecker, async (req, res, next) => {
     let entry = await Entry.findById(req.params.id);
-    if (req.session.user.username !== entry.author) {
+    if (req.session.user._id !== entry.authorID._id) {
         res.render('404', { username: req.session.user.username, loggedIn: true });
     } else if (req.session.user && req.cookies.user_sid) {
         res.render('entries/edit', { entry, username: req.session.user.username, loggedIn: true });
     } else {
-        res.render('entries/edit', {entry});
+        res.render('entries/edit', { entry });
     }
 });
 module.exports = router;
